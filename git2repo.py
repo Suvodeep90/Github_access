@@ -66,12 +66,11 @@ class git2repo(object):
     
     def get_diffs(self,commits):
         diffs = {}
-        commits = self.repo.get(commits)
         for i in range(len(commits)):
-            t0 = commits[i]
+            t0 = self.repo.get(commits[i])
             files = {}
             if i != 0:
-                t1 = commits[i].parents[0]
+                t1 = t0.parents[0]
             else:
                 continue
             _diff = self.repo.diff(t1,t0)
@@ -84,7 +83,7 @@ class git2repo(object):
                         old_lineno.append(y.old_lineno)
                         new_lineno.append(y.new_lineno)
                 files[diff_i.delta.new_file.id] = {'file_path':file_path, 'old_lines':old_lineno,'new_lines':new_lineno}
-            diffs[commits[i].id] = {'files':files,'object':commits[i]}
+            diffs[t0.id] = {'files':files,'object':t0}
         return diffs
     
     def get_blame(self,file_path):

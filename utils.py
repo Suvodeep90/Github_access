@@ -14,7 +14,7 @@ class utils(object):
     def __init__(self):
         self.name = ''
         
-    def stemming(x):
+    def stemming(self,x):
         port_stem = PorterStemmer()
         words = []
         for word in x.split(' '):
